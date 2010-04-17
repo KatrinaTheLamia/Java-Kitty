@@ -1,0 +1,29 @@
+
+Virtual Girl is a development target for Jerl 6 applications, and potentially 
+Jython 3 applications to target. Virtual Girl is meant to offer all the 
+wonderful abilities of the JVM, minus the ability to read the Class file 
+format.
+
+Virtual Girl is meant to be a completely customisable JVM, allowing Class 
+Files to be scaled from five bit words, to 128 bit words.
+Any of the limitations typically associated as being hardcoded into the
+various JVMs will be done as completely variable.
+
+This allows Virtual Girl to be as dominatingly strict to about as 
+submissive as possible.
+
+Virtual Girl is meant more to test an APP for issues, and then build a 
+Classfile for the intended application.
+
+The design is to create a general purpose "assembler/compiler" backend for
+the JVM, that can allow other languages to use.
+
+Current plans include having this targetted by Jerl6, Jython3, Timothy
+and whatever other language tickles my fancy.
+
+Virtual Girl has another purpose to be planned for. At the current state, it 
+will not be able to read JAR files, however it is a mile stone that will need 
+to appear. This will end up having Virtual Girl as a default JVM for Lamia
+Browser
+
+
