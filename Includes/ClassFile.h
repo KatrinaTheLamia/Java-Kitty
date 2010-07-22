@@ -1,21 +1,32 @@
 /*nimh-doc
- * File: %(Virtual-Girl-Include)path/ClassFile.h
+ *= %(Virtual-Girl-Include)path/ClassFile.h
  * Projects: Virtual Girl, Jerl 6, Jython 3
  * Maintainer: %(KatrinaTheLamia)user
  * Groups: %(NIMHLabs)group
  * Creation: 3176-2-34
- * Revisions:
+ * License: %(Virtual-Girl-Docs)path/LICENSE.txt
+ *
+ * Generic strucutre file for a ClassFile following the JVM Spec
+ *
+ *== Revisions
  * + 3176-2-34 file creation
  * ! 3176-2-34 Attributes section needs repair
- * Purpose:
- * Generic structure file for a ClassFile in the JVM spec
+ * ~ 3176-2-57 libNIMHified this with class
+ *== TODO
+ * ! 3176-2-57 Debug
+ * ! 3176-2-57 Implement prototypes
  */
 
 #ifndef __Virtual_Girl_ClassFile_H__
 #define __Virtual_Girl_ClassFile_H__
 
+#ifdef __cplusplus /*Oh hi guy--we are actually a C header*/
+extern "C" {
+#endif /*Yeah--just figured you'd need a little help there guy*/
+
 /*nimh-doc
  * Class: VG_ClassFile
+ * Field: __parent: nimh_widget: libNIMH Garbage collection and information
  * Field: magic: nimh_u32b: typically a 32 bit magic number.
  * Field: major_version: nimh_number: major version of this class, assumed to be 16bit
  * Field: minor_version: nimh_number: minor version of this class, assumed to be 16bit
@@ -34,6 +45,7 @@
  * Field: attributes: VG_Attributes: attributes given to this classfile
  */
 typedef struct {
+    nimh_widget *__parent;
     nimh_number *magic;
     nimh_number *major_version, *minor_version;
     void *thisclass, *superclass;
@@ -167,6 +179,10 @@ VG_Method *method(nimh_book*,nimh_string*,nimh_string*,VG_Method*=nil);
  * Attribute /[GS]et/ function.
  */
 VG_Attribute *attribute(nimh_book*,nimh_string*,VG_Attribute*=nil);
+
+#ifdef __cplusplus /*oh, hi guy, you need to close up here. */
+}
+#endif /* there you go, guy */
 
 #endif // __Virtual_Girl_ClassFile_H__
 
