@@ -1,0 +1,37 @@
+NIMH Labs Project License Information
+
+NIMH Labs projects are generally easily available under a dual licensing
+system. Typically to help out your personal preferences for using this
+product. They are both FlOSS licenses, and follow certain preferential
+ideas and concepts for dealing with this program in the license.
+
+* GPL v3 Information [LICME001]
+* BSD Public License Information [LICME002]
+
+
+-------------------------
+[LICME001]
+= NIMH Labs Software is available under the GNU GPL v3
+-------------------------
+
+<Insert standard License Copypasta for GNU GPL v3>
+
+You can find a local copy of this at:
+%(*-Documentation)[0]path/LICENSE/GPLv3.txt
+
+You can find the outside URL for this at:
+<Insert GNU GPL v3 URL>
+
+------------------------
+[LICME002]
+= NIMH Labs Software is also available under The New BSD Public License
+-----------------------
+
+<Insert standard License Copypasta for New BSD Public License>
+
+You can find a local copy of this at:
+%(*-Documentation)[0]path/LICENSE/newBSD.txt
+
+you can find the outside URL for this at:
+<Insert BSD Public License URL>
+
