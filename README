@@ -1,14 +1,15 @@
 
-Virtual Girl is a debugging based Java Virtual Machine used to create and 
+Java Kitty is a debugging based Java Virtual Machine used to create and 
 manipulate Class Files. Its main purpose is to work with development of 
 Jerl6, Jython3, Timothy and various HTC Applications.
 
-Virtual Girl's licensing will be detailed in the Documentation directory
+Java Kitty's licensing will be detailed in the Documentation directory
 
 Features (planned):
 * Editting of the currently loaded ClassFile in memory
 * ClassFile patching
 * ClassFile creation/generation
+* ClassFile deubbing
 * Console
 * Network interaction
 * Update checking
