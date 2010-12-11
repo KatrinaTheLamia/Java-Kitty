@@ -22,12 +22,16 @@
  *             JVM. but not a Cargo Cult Code like.
  * & 3176-5-51 JK_Smart_Constant added
  * ~ 3176-5-51 Defining JK_Smart_Constant
- *
+ * - 3176-5-51 Removed a bunch of crap.
+ * + 3176-5-53 Started work on defining the descriptor
+ * ~ 3176-5-53 Updated Access modes
+ *  
  * == TODO
  * ! Make file suck a lot less
  * ! Clean up after Sun Software. I keep forgetting, they ARE the ones who
  *       also created Solaris and quite a few other irritatingly Cargo Culty
  *       type products.
+ * ! Move Access Modes into own file.
  *
  */
 
@@ -73,50 +77,31 @@ enum JK_Constant_Type
 enum JK_Constant_Type 
 {
 	jk_access_is_public = 0x0001,
+        jk_access_is_private = 0x0002,
+        jk_access_is_protected = 0x0004,
+        jk_access_is_static = 0x0008,
 	jk_access_is_finale = 0x0010,
 	jk_access_is_super = 0x0020,
+        jk_access_is_volatile = 0x0040,
+        jk_access_is_transient = 0x0080,
 	jk_access_is_interface = 0x0100,
 	jk_access_is_abstract = 0x0200,
 };
 
-
-/*
- * The actual varients of Constants stilll need to be defined
- *
+/* 
+ * String constant?! Fvck this shit and Fvck your couch 
+ * 
  */
-typedef struct 
-{
-	JK_Constant_Type tag;
-	void *constant_internals;
-} JK_Constant_dat JK_Constant;
-
-
-/*
- * JVM, I am probably going to redo a lot of your internals--you know this
- * right? I mean... so much bloody Cargo Cult Code all over everything.
- *
- * Most of this code is here, as the specs say it should be.. well, for now 
- * Anyways.
- *
- */
-typedef struct
-{
-        JK_Constant *all_of_me;
-        JK_Descriptor *name;
-} JK_Constant_Accounting_dat JK_Constant_Accounting;
-
-typedef struct
-{
-        JK_Constant_Type tag;
-	JK_Constant *me, *name_and_types_index;
-} JK_Constant_Method_Ref_dat JK_Constant_Method_Ref
-
-/* String constant?! Fvck this shit and Fvck your couch */
 
 /*
  * Temporarily spot for building a smarter ClassFile Constants object
  */
 
+typedef struct
+{
+	nimh_widget *__self;
+	void *name, *description;
+} JK_Descriptor_dat JK_Descriptor;
 /* 
  * Right--now then. We are going to make these constants a bit easier to
  * Keep track.
@@ -142,7 +127,7 @@ typedef struct
  */
 typedef struct
 {
-        nimh_widget *__parent;
+        nimh_widget *__self;
         JK_Constant_Type I_am_a;
         JK_Descriptor *some_know_me_as;
 	nimh_u4 high_data, low_data;
