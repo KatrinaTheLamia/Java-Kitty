@@ -241,6 +241,31 @@ typedef struct
         nimh_widget *names_and_types_index;
 } JK_Smart_Constant_dat JK_Smart_Constant;
 
+/*
+ * Note for the future, this is mostly internal information on the classfile.
+ * For writing to the classfile, another file, a layout file, will be used.
+ * The Layout file will note any constraints in writing the file. When reading
+ * the files, all that will be considered is security constraints (which will
+ * be modifiable based on libNIMH configuration settings).
+ *
+ * Yeah, Sun Microsystems--things do not need to be as formal as you are 
+ * having them be. JVM-san, meet Java Kitty-chan X3. ^n.n;7
+ *
+ */
+typedef struct
+{
+	nimh_widget *__self;
+	nimh_number magic;
+	nimh_number major_version, minor_version;
+	nimh_widget *__this_class, *__super;
+	nimh_number *constant_pool_size, interface_count, field_count, methods_count, attributes_count;
+	JK_Smart_Constant *constant_pool;
+	nimh_u2 access;
+	JK_Smart_Attributes *attributes;
+	JK_Info *my_information;
+} JK_Smart_ClassFile_dat JK_Smart_ClassFile;
+
+
 #ifdef __cplusplus
 };
 #endif
