@@ -44,7 +44,10 @@
  * 		as retarded.
  * +& 3177-1-7 We now have a Code Attributes specialisation.
  * + 3177-1-7 Innerclass data items added... we could nimhify this a bit more
- * 		in a later commit.http://img838.imageshack.us/img838/8021/snapshot016.jpg
+ * 		in a later commit.
+ * ~& 3177-1-77 Now working on nimhifying this file a bit more. Finally, it 
+ * 		is starting to gain IQ points.
+ *
  *
  * == TODO
  * ! Make file suck a lot less
@@ -139,27 +142,34 @@ typedef struct
 typedef struct
 {
 	nimh_widget *__self;
+	JK_Descriptor *__parent;
 	JK_Constant_Type my_type;
 	nimh_u2 my_access;
-	nimh_string *name;
-	nimh_widget *description;
 	nimh_u4 attributes_count;
 	nimh_widget *attributes;
 } JK_Info_dat JK_Info;
 
+/* Notes, Smart Attribute will likely have Code Attributes be
+ * inherited from Exception Attributes*/
+
 typedef struct
 {
 	nimh_widget *__self;
-	nimh_string *name;
+	nimh_Info *__parent;
 	nimh_u4 length;
-	nimh_widget data;
-} JK_Attribute_dat JK_Attribute;
+	nimh_widget *specialised_elements;
+	nimh_u2 contents_count;
+	nimh_widget *my_contents;
+	nimh_u2 my_attribute_counts;
+	nimh_widget *my_attributes;
+} JK_Smart_Attribute_dat JK_Smart_Attribute;
 
 /*
  * Specialised Attribute additions for Code Attributes;
  */
 typedef struct {
 	nimh_widget *__self;
+	JK_Smart_Attribute *__parent;
 	nimh_string *name;
 	nimh_stack_point max_stack;
 	nimh_u2 max_locals;
@@ -170,44 +180,27 @@ typedef struct {
 typedef struct
 {
 	nimh_widget *__self;
+	JK_Info *__parent, outer_info;
+} JK_Innerclass_Entry_dat JK_Innerclass_Entry;
+
+typedef struct
+{
+	nimh_widget *__self;
 	nimh_stack_point start, end, handler;
 	nimh_string catch_type;
 } JK_Exception_Entry_dat JK_Exception_Entry;
-
-typedef struct
-{
-	nimh_widget *__self;
-	JK_Info *my_info, outer_info;
-	nimh_string *my_name;
-	nimh_u2 my_access;
-} JK_Innerclass_Entry_dat JK_Innerclass_Entry;
-
-/* Notes, Smart Attribute will likely have Code Attributes be
- * inherited from Exception Attributes*/
-
-typedef struct
-{
-	nimh_widget *__self;
-	nimh_string *my_name;
-	nimh_u4 length;
-	nimh_widget *specialised_elements;
-	nimh_u2 contents_count;
-	nimh_widget *my_contents;
-	nimh_u2 my_attribute_counts;
-	nimh_widget *my_attributes;
-} JK_Smart_Attribute_dat JK_Smart_Attribute;
 
 /* 
  * Right--now then. We are going to make these constants a bit easier to
  * Keep track.
  *
  * Param: __self: *nimh_widget: about time we nimhified this shiznit up
+ * Param: __parent: *JK_Descriptor: moved this into parent's spot. It is a 
+ * 		shame. Before as a "some_know_me_as" allowed for an excellent
+ * 		set of examples refering to Tim the Enchantor.
  * Param: I_am_a: JK_Constant_Type: what type of "constant" are we. Part of
  *               Java Kitty is a debugging feature. No need to have these as
  *               immutable data types within Java Kitty.
- * Param: some_know_me_as: JK_Descriptor: Tim... oh dear Tim the Enchantor,
- *               you shall serve as a Java Kitty example of a name for years
- *               to come.
  * Param: bytes: nimh_u4 *: sometimes contains an index, sometimes  value.
  *               lets general purpose this up a bit more. Typically, this will
  *               be done a different length based on the type contained. 
@@ -224,8 +217,8 @@ typedef struct
 typedef struct
 {
         nimh_widget *__self;
+	JK_Descriptor *__parent;
         JK_Constant_Type I_am_a;
-        JK_Descriptor *some_know_me_as;
 	nimh_u4 *bytes;
         nimh_widget *names_and_types_index;
 } JK_Smart_Constant_dat JK_Smart_Constant;
