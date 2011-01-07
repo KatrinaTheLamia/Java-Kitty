@@ -40,6 +40,9 @@
  * + 3177-1-7 Added exception workings... this will likely be removed.
  * ! 3177-1-7 This likely will be turned into the ClassFile.h file, 
  * 		rather than a file included by it.
+ * +& 3177-1-7 Think I figured out how to not have the Attributes item quite 
+ * 		as retarded.
+ * +& 3177-1-7 We now have a Code Attributes specialisation.
  *
  * == TODO
  * ! Make file suck a lot less
@@ -163,10 +166,37 @@ typedef struct
 	nimh_widget *attributes;
 } JK_Code_Attribute_dat JK_Code_Attribute;
 
+/*
+ * Specialised Attribute additions for Code Attributes;
+ */
+typedef struct {
+	nimh_widget *__self;
+	nimh_string *name;
+	nimh_stack_point max_stack;
+	nimh_u2 max_locals;
+	nimh_u4 code_length;
+	nimh_u1 *code_block;
+} JK_Code_Attribute_Variances_dat JK_Code_Attribute_Variances;
+
 typedef struct
 {
 	nimh_widget *__self;
+	nimh_string *name;
+	nimh_u4 length;
+	nimh_u2 count;
+	nimh_widget *exception_table;
 } JK_Exception_Attribute_dat JK_Exception_Attribute;
+
+
+typedef struct
+{
+	nimh_widget *__self;
+	nimh_string *my_name;
+	nimh_u4 length;
+	nimh_u2 number_of_innerclasses;
+	nimh_widget *innerclasses;
+	
+} JK_Innerclass_dat JK_Innerclass;
 
 typedef struct
 {
@@ -175,9 +205,19 @@ typedef struct
 	nimh_string catch_type;
 } JK_Exception_Entry_date JK_Exception_Entry;
 
+/* Notes, Smart Attribute will likely have Code Attributes be
+ * inherited from Exception Attributes*/
+
 typedef struct
 {
 	nimh_widget *__self;
+	nimh_string *my_name;
+	nimh_u4 length;
+	nimh_widget *specialised_elements;
+	nimh_u2 contents_count;
+	nimh_widget *my_contents;
+	nimh_u2 my_attribute_counts;
+	nimh_widget *my_attributes;
 } JK_Smart_Attribute_dat JK_Smart_Attribute;
 
 /* 
