@@ -74,7 +74,7 @@ enum JK_Constant_Type
  * Flags for Class Files to dictate access.
  */
 
-enum JK_Constant_Type 
+enum JK_Access 
 {
 	jk_access_is_public = 0x0001,
         jk_access_is_private = 0x0002,
@@ -82,10 +82,13 @@ enum JK_Constant_Type
         jk_access_is_static = 0x0008,
 	jk_access_is_finale = 0x0010,
 	jk_access_is_super = 0x0020,
+	jk_access_is_syncronised = 0x0020,
         jk_access_is_volatile = 0x0040,
         jk_access_is_transient = 0x0080,
 	jk_access_is_interface = 0x0100,
-	jk_access_is_abstract = 0x0200,
+	jk_access_is_native = 0x0100,
+	jk_access_is_abstract = 0x0400,
+	jk_access_is_strict = 0x0800,
 };
 
 /* 
@@ -102,35 +105,58 @@ typedef struct
 	nimh_widget *__self;
 	void *name, *description;
 } JK_Descriptor_dat JK_Descriptor;
+
+
+/*
+ * Making a generic info struct... that covers most different types of 
+ * information to look into.
+ */
+typedef struct
+{
+	JK_Constant_Type my_type;
+	JK_Access my_access;
+	void *name, *description;
+	nimh_u4 attributes_count;
+	void *attributes;
+} JK_Info_dat JK_Info;
+
+typedef struct
+{
+	void *name;
+	nimh_u4 length;
+	void data;
+} JK_Attribute_dat JK_Attribute;
+
 /* 
  * Right--now then. We are going to make these constants a bit easier to
  * Keep track.
  *
- * Param: __parent: *nimh_widget: about time we nimhified this shiznit up
+ * Param: __self: *nimh_widget: about time we nimhified this shiznit up
  * Param: I_am_a: JK_Constant_Type: what type of "constant" are we. Part of
  *               Java Kitty is a debugging feature. No need to have these as
  *               immutable data types within Java Kitty.
  * Param: some_know_me_as: JK_Descriptor: Tim... oh dear Tim the Enchantor,
  *               you shall serve as a Java Kitty example of a name for years
  *               to come.
- * Param: high_data: nimh_u4: sometimes contains an index, sometimes  value.
- *               lets general purpose this up a bit more.
- * Param: low_data: nimh_u4: general purpose low data type. If not used, it 
- *               is not used. Easier to have an addition 4 Bytes of memory
- *               used, rather than make 9001 different structures just to
- *               appease Java Communities' desire for insanely formal software
- *               and as much Cargo Cult Code as possible. In memory, this
- *               just works better--and in code too.
+ * Param: bytes: nimh_u4 *: sometimes contains an index, sometimes  value.
+ *               lets general purpose this up a bit more. Typically, this will
+ *               be done a different length based on the type contained. 
+ *               will do a high byte, low byte for most data. For UTF8 strings
+ *               it will be a much longer version of it.
  * Param: name_and_types_index: *void (to be seen as JK_Smart_Constant):
  *               what other constants do we talk to?
- * Param: 
+ * 
+ * The smart constant... will give a better summary. Mostly for use of 
+ * internal type elements in this programs' running. Layout of the file
+ * is best done as a config type file, based on the contents of this struct.
+ *
  */
 typedef struct
 {
         nimh_widget *__self;
         JK_Constant_Type I_am_a;
         JK_Descriptor *some_know_me_as;
-	nimh_u4 high_data, low_data;
+	nimh_u4 *bytes;
         void *name_and_types_index;
 } JK_Smart_Constant_dat JK_Smart_Constant;
 
