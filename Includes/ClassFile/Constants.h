@@ -60,6 +60,9 @@
  * ! Rearrange data types to be more logically layed out for libNIMH...
  * 		just a suggestion. This is a Classfile, we can give it custom
  * 		instructions on how to lay itself out.
+ * ! Comment this file better. Most of it will likely be described in the 
+ * 		Java Kitty Specs... but that is more how this crap will be
+ * 		used, when talking to the JVM.
  */
 
 
@@ -156,6 +159,7 @@ typedef struct
 {
 	nimh_widget *__self;
 	nimh_Info *__parent;
+	nimh_string *attribute_type;
 	nimh_u4 length;
 	nimh_widget *specialised_elements;
 	nimh_u2 contents_count;
@@ -189,6 +193,20 @@ typedef struct
 	nimh_stack_point start, end, handler;
 	nimh_string catch_type;
 } JK_Exception_Entry_dat JK_Exception_Entry;
+
+typedef struct
+{
+	nimh_widget *__self;
+	nimh_stack_point start, end;
+	nimh_u4 line_number;
+} JK_LineNumber_Entry_dat JK_LineNumber_Entry;
+
+typedef struct
+{
+	nimh_widget *__self;
+	nimh_Info *__parent;
+	nimh_stack_point start, index;
+} JK_Lexical_Entry_dat JK_Lexical_Entry;
 
 /* 
  * Right--now then. We are going to make these constants a bit easier to
