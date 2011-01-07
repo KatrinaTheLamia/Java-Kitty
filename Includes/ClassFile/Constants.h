@@ -25,13 +25,30 @@
  * - 3176-5-51 Removed a bunch of crap.
  * + 3176-5-53 Started work on defining the descriptor
  * ~ 3176-5-53 Updated Access modes
- *  
+ * + 3176-1-6 Started Attribute work
+ * ~ 3177-1-7 why the hell were name index entries not stored as nimh_strings?
+ * ~ 3177-1-7 also, why am I doing this retarded stuff with void* instead of
+ * 		nimh_widget... which is the same thing... just with crap 
+ * 		control
+ * ! 3177-1-7 Dear sweet Merciless Eris, I may have to do up my own specs 
+ * 		describing the stuff I made less excessively retarded in Sun 
+ * 		Microsystem's Designs. The Java Kitty 0.1 Specs, a JVM for
+ * 		those distracted by shiny objects... or something
+ * & 3177-1-7 Smart Attribute placeholder... I think a better name is needed 
+ * 		for these Java Kitty internal types... something indicating 
+ * 		the improved crap control I am giving this crap.
+ * + 3177-1-7 Added exception workings... this will likely be removed.
+ * ! 3177-1-7 This likely will be turned into the ClassFile.h file, 
+ * 		rather than a file included by it.
+ *
  * == TODO
  * ! Make file suck a lot less
  * ! Clean up after Sun Software. I keep forgetting, they ARE the ones who
  *       also created Solaris and quite a few other irritatingly Cargo Culty
  *       type products.
- * ! Move Access Modes into own file.
+ * & 3177-1-7 ! Move Access Modes into own file -> This will just be the 
+ * 			Classfile.h file... it really does not need to be more
+ * 			spread out.
  *
  */
 
@@ -103,7 +120,8 @@ enum JK_Access
 typedef struct
 {
 	nimh_widget *__self;
-	void *name, *description;
+	nimh_string *name;
+	nimh_widget *description;
 } JK_Descriptor_dat JK_Descriptor;
 
 
@@ -113,19 +131,54 @@ typedef struct
  */
 typedef struct
 {
+	nimh_widget *__self;
 	JK_Constant_Type my_type;
 	JK_Access my_access;
-	void *name, *description;
+	nimh_string *name;
+	nimh_widget *description;
 	nimh_u4 attributes_count;
-	void *attributes;
+	nimh_widget *attributes;
 } JK_Info_dat JK_Info;
 
 typedef struct
 {
-	void *name;
+	nimh_widget *__self;
+	nimh_string *name;
 	nimh_u4 length;
-	void data;
+	nimh_widget data;
 } JK_Attribute_dat JK_Attribute;
+
+typedef struct
+{
+	nimh_widget *__self;
+	nimh_string *name;
+	nimh_u4 length;
+	nimh_u2 max_stack;
+	nimh_u2 max_locals;
+	nimh_u4 code_length;
+	nimh_u1 *code_block;
+	nimh_u2 *exception_count;
+	nimh_widget *exception_table;
+	nimh_u2 attribute_count;
+	nimh_widget *attributes;
+} JK_Code_Attribute_dat JK_Code_Attribute;
+
+typedef struct
+{
+	nimh_widget *__self;
+} JK_Exception_Attribute_dat JK_Exception_Attribute;
+
+typedef struct
+{
+	nimh_widget *__self;
+	nimh_stack_point start, end, handler;
+	nimh_string catch_type;
+} JK_Exception_Entry_date JK_Exception_Entry;
+
+typedef struct
+{
+	nimh_widget *__self;
+} JK_Smart_Attribute_dat JK_Smart_Attribute;
 
 /* 
  * Right--now then. We are going to make these constants a bit easier to
@@ -143,8 +196,8 @@ typedef struct
  *               be done a different length based on the type contained. 
  *               will do a high byte, low byte for most data. For UTF8 strings
  *               it will be a much longer version of it.
- * Param: name_and_types_index: *void (to be seen as JK_Smart_Constant):
- *               what other constants do we talk to?
+ * Param: name_and_types_index: *nimh_widget (will point to the 
+ *               JK_Smart_Constant): what other constants do we talk to?
  * 
  * The smart constant... will give a better summary. Mostly for use of 
  * internal type elements in this programs' running. Layout of the file
@@ -157,7 +210,7 @@ typedef struct
         JK_Constant_Type I_am_a;
         JK_Descriptor *some_know_me_as;
 	nimh_u4 *bytes;
-        void *name_and_types_index;
+        nimh_widget *names_and_types_index;
 } JK_Smart_Constant_dat JK_Smart_Constant;
 
 #ifdef __cplusplus
