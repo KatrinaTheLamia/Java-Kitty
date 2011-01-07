@@ -43,6 +43,8 @@
  * +& 3177-1-7 Think I figured out how to not have the Attributes item quite 
  * 		as retarded.
  * +& 3177-1-7 We now have a Code Attributes specialisation.
+ * + 3177-1-7 Innerclass data items added... we could nimhify this a bit more
+ * 		in a later commit.http://img838.imageshack.us/img838/8021/snapshot016.jpg
  *
  * == TODO
  * ! Make file suck a lot less
@@ -52,7 +54,9 @@
  * & 3177-1-7 ! Move Access Modes into own file -> This will just be the 
  * 			Classfile.h file... it really does not need to be more
  * 			spread out.
- *
+ * ! Rearrange data types to be more logically layed out for libNIMH...
+ * 		just a suggestion. This is a Classfile, we can give it custom
+ * 		instructions on how to lay itself out.
  */
 
 
@@ -136,7 +140,7 @@ typedef struct
 {
 	nimh_widget *__self;
 	JK_Constant_Type my_type;
-	JK_Access my_access;
+	nimh_u2 my_access;
 	nimh_string *name;
 	nimh_widget *description;
 	nimh_u4 attributes_count;
@@ -150,21 +154,6 @@ typedef struct
 	nimh_u4 length;
 	nimh_widget data;
 } JK_Attribute_dat JK_Attribute;
-
-typedef struct
-{
-	nimh_widget *__self;
-	nimh_string *name;
-	nimh_u4 length;
-	nimh_u2 max_stack;
-	nimh_u2 max_locals;
-	nimh_u4 code_length;
-	nimh_u1 *code_block;
-	nimh_u2 *exception_count;
-	nimh_widget *exception_table;
-	nimh_u2 attribute_count;
-	nimh_widget *attributes;
-} JK_Code_Attribute_dat JK_Code_Attribute;
 
 /*
  * Specialised Attribute additions for Code Attributes;
@@ -181,29 +170,17 @@ typedef struct {
 typedef struct
 {
 	nimh_widget *__self;
-	nimh_string *name;
-	nimh_u4 length;
-	nimh_u2 count;
-	nimh_widget *exception_table;
-} JK_Exception_Attribute_dat JK_Exception_Attribute;
-
-
-typedef struct
-{
-	nimh_widget *__self;
-	nimh_string *my_name;
-	nimh_u4 length;
-	nimh_u2 number_of_innerclasses;
-	nimh_widget *innerclasses;
-	
-} JK_Innerclass_dat JK_Innerclass;
-
-typedef struct
-{
-	nimh_widget *__self;
 	nimh_stack_point start, end, handler;
 	nimh_string catch_type;
-} JK_Exception_Entry_date JK_Exception_Entry;
+} JK_Exception_Entry_dat JK_Exception_Entry;
+
+typedef struct
+{
+	nimh_widget *__self;
+	JK_Info *my_info, outer_info;
+	nimh_string *my_name;
+	nimh_u2 my_access;
+} JK_Innerclass_Entry_dat JK_Innerclass_Entry;
 
 /* Notes, Smart Attribute will likely have Code Attributes be
  * inherited from Exception Attributes*/
