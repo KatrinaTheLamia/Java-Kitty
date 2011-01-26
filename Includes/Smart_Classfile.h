@@ -75,9 +75,7 @@
 /*
  * C++ Guards, naturally.
  */
-#ifdef __cplusplus
-extern "C" {
-#endif
+make_this_c(
 
 /*
  *
@@ -263,11 +261,8 @@ typedef struct
 	nimh_u2 access;
 	JK_Smart_Attributes *attributes;
 	JK_Info *my_information;
-} JK_Smart_ClassFile_dat JK_Smart_ClassFile;
+} JK_Smart_Class_dat JK_Smart_Class;
 
-
-#ifdef __cplusplus
-};
-#endif
+);
 
 #endif /* End the header */
