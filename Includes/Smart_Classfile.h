@@ -82,7 +82,7 @@ make_this_c(
  * An enum for numerical type constants.
  *
  */
-enum JK_Constant_Type 
+enum JK_Type 
 {
 	jk_t_utf8 = 1,
 	jk_t_interger = 3,
@@ -144,7 +144,7 @@ typedef struct
 {
 	nimh_widget *__self;
 	JK_Descriptor *__parent;
-	JK_Constant_Type my_type;
+	JK_Type my_type;
 	nimh_u2 my_access;
 	nimh_u4 attributes_count;
 	nimh_widget *attributes;
@@ -234,7 +234,7 @@ typedef struct
 {
         nimh_widget *__self;
 	JK_Descriptor *__parent;
-        JK_Constant_Type I_am_a;
+        JK_Type I_am_a;
 	nimh_u4 *bytes;
         nimh_widget *names_and_types_index;
 } JK_Smart_Constant_dat JK_Smart_Constant;
